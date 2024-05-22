@@ -32,5 +32,5 @@ class Tile:
 		# Si on a au moins un voisin qui est une bombe on arrète de propager
 		if self.is_bomb or self.bomb_neighbours_count != 0: return
 		for neighbour in self.neighbours:
-			if not neighbour.revealed and not neighbour.is_bomb:
+			if not neighbour.revealed:
 				neighbour.floodfill()
