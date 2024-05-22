@@ -66,6 +66,7 @@ class Game:
 	def run(self) -> None:
 		debut = time()
 		temps = 0.
+		# Boucle principale
 		while self.running:
 			# On s'occupe du titre de la fenètre
 			if self.lost:
@@ -81,7 +82,7 @@ class Game:
 			if self.generated and self.hidden_bombs == 0:
 				self.win(debut)
 
-			# Boucle principale
+			# On traite les événements qui nous intéressent
 			for event in pygame.event.get():
 				# Quitter le jeu
 				if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
