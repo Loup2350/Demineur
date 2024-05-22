@@ -151,11 +151,6 @@ class Game:
 			# Affichage
 			self.display()
 
-	def win(self, debut):
-		self.running = False
-		temps = time() - debut
-		print(f"Bravo, réussi en {int(temps)}s")
-
 	def display(self) -> None:
 		for tile in self.tiles:
 			if tile.revealed:
