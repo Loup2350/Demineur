@@ -251,19 +251,19 @@ class Game:
 
 		# On calcule la liste des voisins de chaque case
 		for i, tile in enumerate(self.tiles):
-			if i - self.horiz_tiles >= 0:
-				tile.neighbours.append(self.tiles[i - self.horiz_tiles])
+			if i - self.vert_tiles >= 0:
+				tile.neighbours.append(self.tiles[i - self.vert_tiles])
 				if i % self.vert_tiles > 0:
-					tile.neighbours.append(self.tiles[i - self.horiz_tiles - 1])
+					tile.neighbours.append(self.tiles[i - self.vert_tiles - 1])
 				if i % self.vert_tiles < self.vert_tiles - 1:
-					tile.neighbours.append(self.tiles[i - self.horiz_tiles + 1])
+					tile.neighbours.append(self.tiles[i - self.vert_tiles + 1])
 
-			if i + self.horiz_tiles < self.num_tiles:
-				tile.neighbours.append(self.tiles[i + self.horiz_tiles])
+			if i + self.vert_tiles < self.num_tiles:
+				tile.neighbours.append(self.tiles[i + self.vert_tiles])
 				if i % self.vert_tiles < self.vert_tiles - 1:
-					tile.neighbours.append(self.tiles[i + self.horiz_tiles + 1])
+					tile.neighbours.append(self.tiles[i + self.vert_tiles + 1])
 				if i % self.vert_tiles > 0:
-					tile.neighbours.append(self.tiles[i + self.horiz_tiles - 1])
+					tile.neighbours.append(self.tiles[i + self.vert_tiles - 1])
 
 			if i % self.vert_tiles > 0:
 				tile.neighbours.append(self.tiles[i - 1])
