@@ -146,10 +146,6 @@ class Game:
 								self.hidden_bombs -= 1
 							self.flagged += 1
 
-						# Pour éviter que le titre affiche un compte de bombes restantes négatif
-						if self.flagged > self.num_bombs:
-							self.flagged = self.num_bombs
-
 						clicked_tile.flagged = not clicked_tile.flagged
 				
 			# Affichage
