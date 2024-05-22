@@ -2,6 +2,7 @@ from os import path
 from random import randint
 from time import time
 
+import easygui as eg
 import pygame
 
 from tile import Tile
@@ -35,6 +36,7 @@ class Game:
 		self.width = self.horiz_tiles * self.tilesize
 		self.height = self.vert_tiles * self.tilesize
 		self.num_tiles = horiz_tiles * vert_tiles
+		self.debut = 0
 
 		self.Font = pygame.font.SysFont("segoe-ui-symbol.ttf", int(self.tilesize * .6))
 		# TODO : meilleures images...
@@ -64,7 +66,6 @@ class Game:
 		pygame.mouse.set_cursor(pygame.cursors.arrow)
 
 	def run(self) -> None:
-		debut = time()
 		temps = 0.
 		# Boucle principale
 		while self.running:
@@ -74,19 +75,21 @@ class Game:
 				pygame.display.set_caption(
 						f"Perdu, il restait {str(self.hidden_bombs)} bombes, temps de jeu : {temps}s")
 			else:
+				temps = int(time() - debut) if self.generated else 0
 				pygame.display.set_caption(
-						f"Il reste {str(self.num_bombs - self.flagged)} bombes, temps de jeu : {int(time() - debut)}s")
+						f"Il reste {str(self.num_bombs - self.flagged)} bombes, temps de jeu : {temps}s")
 
 			# TODO : mécanisme pour recommencer une nouvelle partie
 			# Si on a gagné
 			if self.generated and self.hidden_bombs == 0:
-				self.win(debut)
+				self.running = False
 
 			# On traite les événements qui nous intéressent
 			for event in pygame.event.get():
 				# Quitter le jeu
 				if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
 					self.running = False
+					self.lost = False
 
 				# Technique secrète pour aller vite
 				if event.type == pygame.KEYDOWN:
@@ -112,6 +115,7 @@ class Game:
 						if clicked_tile.flagged: continue
 						if not self.generated:
 							self.generate(x, y)
+							self.debut = time()
 
 						# Si la case est déjà révélée et a autant de drapeaux autour d'elle que de bombes,
 						# on peut cliquer dessus pour révéler toutes les cases adjacentes qui n'ont pas de drapeau
@@ -123,11 +127,11 @@ class Game:
 									if not neighbour.flagged and not neighbour.revealed:
 										neighbour.floodfill()
 										if neighbour.is_bomb:
-											temps = self.lose(debut)
+											temps = self.lose()
 
 						# On a cliqué sur une bombe cachée
 						if clicked_tile.is_bomb:
-							temps = self.lose(debut)
+							temps = self.lose()
 
 						# Sinon on révèle simplement la case cliquée
 						else:
@@ -151,6 +155,10 @@ class Game:
 				
 			# Affichage
 			self.display()
+
+		pygame.quit()
+		if not self.lost:
+			eg.msgbox(f"Gagné en {int(time() - self.debut)}s !")
 
 	def display(self) -> None:
 		for tile in self.tiles:
@@ -191,12 +199,7 @@ class Game:
 		# Et on met à jour l'affichage avec le nouveau contenu de l'écran
 		pygame.display.update()
 
-	def win(self, debut):
-		self.running = False
-		temps = time() - debut
-		print(f"Bravo, réussi en {int(temps)}s")
-
-	def lose(self, debut: float) -> int:
+	def lose(self) -> int:
 		"""
 		Affiche toutes les bombes et termine la partie, et renvoit le temps de jeu.
 
@@ -207,7 +210,7 @@ class Game:
 			if tile.is_bomb:
 				tile.revealed = True
 		self.lost = True
-		return int(time() - debut)
+		return int(time() - self.debut)
 
 	def voisins(self, x: int, y: int) -> list[int]:
 		"""
