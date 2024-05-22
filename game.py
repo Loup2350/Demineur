@@ -155,6 +155,7 @@ class Game:
 		for tile in self.tiles:
 			if tile.revealed:
 				if tile.is_bomb:
+					# On dessine l'image self.bomb_image sur self.surface aux coordonnées précisées.
 					self.surface.blit(self.bomb_image,
 										 (tile.x * self.tilesize, tile.y * self.tilesize))
 				else:
@@ -163,6 +164,8 @@ class Game:
 									 pygame.Rect(tile.x * self.tilesize, tile.y * self.tilesize,
 												 self.tilesize, self.tilesize))
 					if tile.bomb_neighbours_count > 0:
+						# Si on a des voisins bombes, on utilise self.Font.render pour créer une image qui contient 
+						# le nombre de voisins bombes, de la bonne couleur.
 						text = self.Font.render(str(tile.bomb_neighbours_count), True,
 												couleurs_chiffres[tile.bomb_neighbours_count])
 						text_rect = text.get_rect()
