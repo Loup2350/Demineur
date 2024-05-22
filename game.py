@@ -184,8 +184,10 @@ class Game:
 			if not (tile.flagged or tile.revealed):
 				self.surface.blit(self.tile_image,
 									 (tile.x * self.tilesize, tile.y * self.tilesize))
-		
+
+		# On affiche la surface de dessin sur l'écran
 		self.screen.blit(self.surface, self.surface.get_rect())
+		# Et on met à jour l'affichage avec le nouveau contenu de l'écran
 		pygame.display.update()
 
 	def win(self, debut):
