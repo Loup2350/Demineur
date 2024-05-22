@@ -36,7 +36,7 @@ class Game:
 		self.height = self.vert_tiles * self.tilesize
 		self.num_tiles = horiz_tiles * vert_tiles
 
-		self.Font = pygame.font.SysFont("segoe-ui-symbol.ttf", int(max(self.tilesize, self.tilesize) * .6))
+		self.Font = pygame.font.SysFont("segoe-ui-symbol.ttf", int(self.tilesize * .6))
 		# TODO : meilleures images...
 		self.flag_image = pygame.transform.smoothscale(
 				pygame.image.load(path.join("resources", "drapeau.png")),
