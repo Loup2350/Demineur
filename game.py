@@ -89,7 +89,7 @@ class Game:
 				# Quitter le jeu
 				if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
 					self.running = False
-					self.lost = False
+					self.lost = True
 
 				# Technique secrète pour aller vite
 				if event.type == pygame.KEYDOWN:
