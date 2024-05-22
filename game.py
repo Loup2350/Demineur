@@ -75,7 +75,7 @@ class Game:
 				pygame.display.set_caption(
 						f"Perdu, il restait {str(self.hidden_bombs)} bombes, temps de jeu : {temps}s")
 			else:
-				temps = int(time() - debut) if self.generated else 0
+				temps = int(time() - self.debut) if self.generated else 0
 				pygame.display.set_caption(
 						f"Il reste {str(self.num_bombs - self.flagged)} bombes, temps de jeu : {temps}s")
 
